@@ -15,7 +15,8 @@
 //==============================================================================
 Vibrato2pluginAudioProcessor::Vibrato2pluginAudioProcessor() : amplParam(nullptr),
                                                                freqParam(nullptr),
-                                                               pVibrato(0)
+                                                               pVibrato(0),
+                                                               isBypass(false)
 {
     addParameter (amplParam  = new AudioParameterFloat ("ampl",  "VibratoAmplitude", 0.0f, 0.1f, 0.01f));
     addParameter (freqParam = new AudioParameterFloat ("freq", "VibratoFrequency", 0.0f, 50.0f, 5.0f));
@@ -116,8 +117,10 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
 
     pVibrato->setParam(CVibrato::kParamModFreqInHz, *freqParam);
     pVibrato->setParam(CVibrato::kParamModWidthInS, *amplParam);
-    pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
     
+    if (!isBypass) {
+        pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
+    }
 }
 
 //==============================================================================
@@ -150,4 +153,13 @@ void Vibrato2pluginAudioProcessor::setStateInformation (const void* data, int si
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()
 {
     return new Vibrato2pluginAudioProcessor();
+}
+
+// get the information of bypass
+bool Vibrato2pluginAudioProcessor:: getBypass() {
+    return isBypass;
+}
+
+void Vibrato2pluginAudioProcessor::setBypass(bool bypass) {
+    isBypass = bypass;
 }

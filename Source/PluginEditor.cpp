@@ -51,6 +51,8 @@ public:
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterSlider)
 };
 
+
+
 //==============================================================================
 Vibrato2pluginAudioProcessorEditor::Vibrato2pluginAudioProcessorEditor (Vibrato2pluginAudioProcessor& p)
     : AudioProcessorEditor (&p),
@@ -73,6 +75,11 @@ Vibrato2pluginAudioProcessorEditor::Vibrato2pluginAudioProcessorEditor (Vibrato2
     amplitudeLabel.attachToComponent(amplitudeSlider, false);
     frequencyLabel.attachToComponent(frequencySlider, false);
 
+    //Instantiate bypass button
+    addAndMakeVisible(bypassButton = new ToggleButton("Bypass"));
+    //bypassButton->addListener()
+    
+    
     
     setSize (400, 300);
 }
@@ -102,5 +109,12 @@ void Vibrato2pluginAudioProcessorEditor::resized()
     Rectangle<int> sliderArea (r.removeFromTop (50));
     amplitudeSlider->setBounds (sliderArea.removeFromLeft (jmin (180, sliderArea.getWidth() / 2)));
     frequencySlider->setBounds (sliderArea.removeFromLeft (jmin (180, sliderArea.getWidth())));
-    
+    bypassButton->setBounds(proportionOfWidth (0.1867f), proportionOfHeight (0.3800f), proportionOfWidth (0.2500f), proportionOfHeight (0.0600f));
+}
+
+void Vibrato2pluginAudioProcessorEditor:: buttonClicked(Button* buttonIsClicked, Vibrato2pluginAudioProcessor& p) {
+    if (buttonIsClicked == bypassButton) {
+        bypassButtonState = bypassButton->getToggleState();
+        processor.setBypass(bypassButtonState);
+    }
 }

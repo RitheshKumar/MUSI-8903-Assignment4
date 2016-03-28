@@ -56,10 +56,17 @@ public:
     //==============================================================================
     AudioParameterFloat *amplParam,
                         *freqParam;
+    
+    bool getBypass();
+    void setBypass(bool bypass);
+
 
 private:
     //==============================================================================
     CVibrato *pVibrato;
+    ToggleButton * bypassButton;
+    bool isBypass;
+
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Vibrato2pluginAudioProcessor)
 };
 
