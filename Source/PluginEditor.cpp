@@ -63,6 +63,10 @@ Vibrato2pluginAudioProcessorEditor::Vibrato2pluginAudioProcessorEditor (Vibrato2
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     
+//    //Give plugin a name
+//    pluginName.setText("Chan Yin");
+//    addAndMakeVisible(pluginName);
+    
     //Instantiate Sliders
     addAndMakeVisible(amplitudeSlider = new ParameterSlider ( *p.amplParam ));
     amplitudeSlider->setSliderStyle (Slider::Rotary);
@@ -76,13 +80,15 @@ Vibrato2pluginAudioProcessorEditor::Vibrato2pluginAudioProcessorEditor (Vibrato2
     frequencyLabel.attachToComponent(frequencySlider, false);
 
     //Instantiate bypass button
-    addAndMakeVisible(bypassButton = new ToggleButton("Bypass"));
-    //bypassButton->addListener()
+    bypassButton.setButtonText("Bypass");
+    addAndMakeVisible(bypassButton);
+    bypassButton.addListener(this);
     
     
     
     setSize (400, 300);
 }
+
 
 Vibrato2pluginAudioProcessorEditor::~Vibrato2pluginAudioProcessorEditor()
 {
@@ -94,8 +100,8 @@ void Vibrato2pluginAudioProcessorEditor::paint (Graphics& g)
     g.fillAll (Colours::white);
 
     g.setColour (Colours::black);
-    g.setFont (15.0f);
-//    g.drawFittedText ("GoodBye World!", getLocalBounds(), Justification::centred, 1);
+    g.setFont (Font("Times New Roman", 18.0f, Font::bold | Font::italic));
+    g.drawText("Chan Yin Plugin", proportionOfWidth(0.4f), proportionOfHeight(0.1f), proportionOfWidth(0.3f), proportionOfHeight(0.15f), true);
 }
 
 void Vibrato2pluginAudioProcessorEditor::resized()
@@ -107,14 +113,22 @@ void Vibrato2pluginAudioProcessorEditor::resized()
     
     r.removeFromTop (100);
     Rectangle<int> sliderArea (r.removeFromTop (50));
+    
     amplitudeSlider->setBounds (sliderArea.removeFromLeft (jmin (180, sliderArea.getWidth() / 2)));
     frequencySlider->setBounds (sliderArea.removeFromLeft (jmin (180, sliderArea.getWidth())));
-    bypassButton->setBounds(proportionOfWidth (0.1867f), proportionOfHeight (0.3800f), proportionOfWidth (0.2500f), proportionOfHeight (0.0600f));
+    
+    bypassButton.setBounds(proportionOfWidth (0.1f), proportionOfHeight (0.800f), proportionOfWidth (0.2500f), proportionOfHeight (0.0600f));
+    
+
 }
 
-void Vibrato2pluginAudioProcessorEditor:: buttonClicked(Button* buttonIsClicked, Vibrato2pluginAudioProcessor& p) {
-    if (buttonIsClicked == bypassButton) {
-        bypassButtonState = bypassButton->getToggleState();
+void Vibrato2pluginAudioProcessorEditor:: sliderValueChanged(Slider *slider) {
+    
+}
+
+void Vibrato2pluginAudioProcessorEditor:: buttonClicked(Button* buttonIsClicked) {
+    if (buttonIsClicked == &bypassButton) {
+        bypassButtonState = bypassButton.getToggleState();
         processor.setBypass(bypassButtonState);
     }
 }

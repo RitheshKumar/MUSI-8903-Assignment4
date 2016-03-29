@@ -18,14 +18,18 @@
 //==============================================================================
 /**
 */
-class Vibrato2pluginAudioProcessorEditor  : public AudioProcessorEditor
+class Vibrato2pluginAudioProcessorEditor  : public AudioProcessorEditor, public SliderListener, public ButtonListener
 {
 public:
-    Vibrato2pluginAudioProcessorEditor (Vibrato2pluginAudioProcessor&);
+    Vibrato2pluginAudioProcessorEditor (Vibrato2pluginAudioProcessor& p);
     ~Vibrato2pluginAudioProcessorEditor();
+//    void 
+    
+    //for slider
+    void sliderValueChanged(Slider *slider);
     
     //for button
-    void buttonClicked(Button* buttonIsClicked, Vibrato2pluginAudioProcessor& p);
+    void buttonClicked(Button* buttonIsClicked) override;
     
     //==============================================================================
     void paint (Graphics&) override;
@@ -36,13 +40,14 @@ private:
     // access the processor object that created it.
     class ParameterSlider;
     
-    Label  amplitudeLabel, frequencyLabel;
     ScopedPointer<ParameterSlider> amplitudeSlider, frequencySlider;
-
-    // Bypass button
-    ScopedPointer<ToggleButton> bypassButton;
-    bool bypassButtonState;
+    Label  amplitudeLabel, frequencyLabel;
     
+    // Bypass button
+    ToggleButton bypassButton;
+    bool bypassButtonState;
+
+
     Vibrato2pluginAudioProcessor& processor;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Vibrato2pluginAudioProcessorEditor)
