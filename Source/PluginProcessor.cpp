@@ -88,7 +88,12 @@ void Vibrato2pluginAudioProcessor::prepareToPlay (double sampleRate, int samples
 {
     // Use this method as the place to do any pre-playback
     // initialisation that you need..
-    pVibrato->initInstance(3,sampleRate,getTotalNumOutputChannels());
+    if (getTotalNumInputChannels() <= 0) {
+        iNumChannel = 2;
+    } else {
+        iNumChannel = getTotalNumInputChannels();
+    }
+    pVibrato->initInstance(3.0f, (float)sampleRate, iNumChannel);
     
 }
 
@@ -102,7 +107,12 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
 {
     const int totalNumInputChannels  = getTotalNumInputChannels();
     const int totalNumOutputChannels = getTotalNumOutputChannels();
-
+    
+    if (isSliderParamChange) {
+        pVibrato->setParam(CVibrato::kParamModFreqInHz, *freqParam);
+        pVibrato->setParam(CVibrato::kParamModWidthInS, *amplParam);
+    }
+    
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
     // guaranteed to be empty - they may contain garbage).
@@ -115,12 +125,18 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
 
-    pVibrato->setParam(CVibrato::kParamModFreqInHz, *freqParam);
-    pVibrato->setParam(CVibrato::kParamModWidthInS, *amplParam);
+
     
     if (!isBypass) {
         pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
+    } else {
+        
     }
+}
+
+void Vibrato2pluginAudioProcessor::processBlockBypassed(AudioSampleBuffer& buffer, MidiBuffer& midiMessage) {
+//    float** writePointer = buffer.getArrayOfWritePointers();
+//    pVibrato->process(buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
 }
 
 //==============================================================================
@@ -160,6 +176,19 @@ bool Vibrato2pluginAudioProcessor:: getBypass() {
     return isBypass;
 }
 
+// set the condition of bypass
 void Vibrato2pluginAudioProcessor::setBypass(bool bypass) {
     isBypass = bypass;
+}
+
+void Vibrato2pluginAudioProcessor::setVibratoParam(CVibrato::VibratoParam_t eParam, float fParamValue) {
+
+    switch (eParam)
+    {
+        case CVibrato::kParamModFreqInHz:
+            fFreqValue = *freqParam;
+        case CVibrato::kParamModWidthInS:
+            fAmpValue = *amplParam;
+    }
+
 }

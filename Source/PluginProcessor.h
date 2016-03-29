@@ -30,6 +30,8 @@ public:
     void releaseResources() override;
 
     void processBlock (AudioSampleBuffer&, MidiBuffer&) override;
+    
+    void processBlockBypassed(AudioSampleBuffer&, MidiBuffer&) override;
 
     //==============================================================================
     AudioProcessorEditor* createEditor() override;
@@ -59,13 +61,18 @@ public:
     
     bool getBypass();
     void setBypass(bool bypass);
-
+    
+    void setVibratoParam(CVibrato::VibratoParam_t eParam, float fParamValue);
 
 private:
     //==============================================================================
     CVibrato *pVibrato;
+    int iNumChannel = 0;
     ToggleButton * bypassButton;
+    DrawableText * bypassInfo;
     bool isBypass;
+    bool isSliderParamChange;
+    float fFreqValue, fAmpValue;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Vibrato2pluginAudioProcessor)
 };
