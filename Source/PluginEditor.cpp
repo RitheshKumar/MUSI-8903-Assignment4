@@ -63,9 +63,6 @@ Vibrato2pluginAudioProcessorEditor::Vibrato2pluginAudioProcessorEditor (Vibrato2
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
     
-//    //Give plugin a name
-//    pluginName.setText("Chan Yin");
-//    addAndMakeVisible(pluginName);
     
     //Instantiate Sliders
     addAndMakeVisible(amplitudeSlider = new ParameterSlider ( *p.getParamLocal(0) ));

@@ -133,8 +133,6 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
     else {
         pVibrato->setParam(CVibrato::kParamModFreqInHz, 0.f);
         pVibrato->setParam(CVibrato::kParamModWidthInS, 0.f);
-        //Hello!
-//        std::cout<<"Hello from bypassing\n";
     }
     pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
     

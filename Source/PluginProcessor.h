@@ -79,6 +79,8 @@ public:
 
 private:
     //==============================================================================
+    AudioParameterFloat *amplParam,
+    *freqParam;
     CVibrato *pVibrato;
     int iNumChannel = 0;
     ToggleButton * bypassButton;
@@ -87,8 +89,7 @@ private:
     bool isSliderParamChange;
     float fFreqValue, fAmpValue;
 
-    AudioParameterFloat *amplParam,
-                        *freqParam;
+
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Vibrato2pluginAudioProcessor)
 };
