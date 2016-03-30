@@ -11,6 +11,13 @@
               pluginAAXCategory="AAX_ePlugInCategory_Dynamics" jucerVersion="4.1.0">
   <MAINGROUP id="BvRcj5" name="Vibrato2Plugin">
     <GROUP id="{E0269B7F-6C79-33C7-C3EF-A0CCE076289A}" name="Source">
+      <FILE id="QjqrDr" name="ErrorDef.h" compile="0" resource="0" file="Source/ErrorDef.h"/>
+      <FILE id="yuKscj" name="Lfo.h" compile="0" resource="0" file="Source/Lfo.h"/>
+      <FILE id="lkmppJ" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>
+      <FILE id="AaDCaJ" name="Synthesis.h" compile="0" resource="0" file="Source/Synthesis.h"/>
+      <FILE id="PMDOZ3" name="Util.h" compile="0" resource="0" file="Source/Util.h"/>
+      <FILE id="lSDNdn" name="Vibrato.cpp" compile="1" resource="0" file="Source/Vibrato.cpp"/>
+      <FILE id="peqJdQ" name="Vibrato.h" compile="0" resource="0" file="Source/Vibrato.h"/>
       <FILE id="VyNOnA" name="PluginProcessor.cpp" compile="1" resource="0"
             file="Source/PluginProcessor.cpp"/>
       <FILE id="mM6rRh" name="PluginProcessor.h" compile="0" resource="0"
