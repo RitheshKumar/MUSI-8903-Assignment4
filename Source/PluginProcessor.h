@@ -56,10 +56,19 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
     
     //==============================================================================
-    AudioParameterFloat *amplParam,
-                        *freqParam;
+  
+    AudioParameterFloat* getParamLocal(int index) {
+        if(!index) {
+            return amplParam;
+        }
+        else {
+            return freqParam;
+        }
+    }
+    
     void setParameterNotifyingHost (int parameterIndex, float newValue);
-    float getParameter (int parameterIndex) override; 
+    float getParameter (int parameterIndex) override;
+
     
     //==============================================================================
     
@@ -78,6 +87,9 @@ private:
     bool isSliderParamChange;
     float fFreqValue, fAmpValue;
 
+    AudioParameterFloat *amplParam,
+                        *freqParam;
+    
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Vibrato2pluginAudioProcessor)
 };
 

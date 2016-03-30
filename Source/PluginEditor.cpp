@@ -68,10 +68,10 @@ Vibrato2pluginAudioProcessorEditor::Vibrato2pluginAudioProcessorEditor (Vibrato2
 //    addAndMakeVisible(pluginName);
     
     //Instantiate Sliders
-    addAndMakeVisible(amplitudeSlider = new ParameterSlider ( *p.amplParam ));
+    addAndMakeVisible(amplitudeSlider = new ParameterSlider ( *p.getParamLocal(0) ));
     amplitudeSlider->setSliderStyle (Slider::Rotary);
 
-    addAndMakeVisible(frequencySlider = new ParameterSlider ( *p.freqParam ));
+    addAndMakeVisible(frequencySlider = new ParameterSlider ( *p.getParamLocal(1) ));
     frequencySlider->setSliderStyle (Slider::Rotary);
     
     
