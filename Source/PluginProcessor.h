@@ -58,6 +58,10 @@ public:
     //==============================================================================
     AudioParameterFloat *amplParam,
                         *freqParam;
+    void setParameterNotifyingHost (int parameterIndex, float newValue);
+    float getParameter (int parameterIndex) override; 
+    
+    //==============================================================================
     
     bool getBypass();
     void setBypass(bool bypass);

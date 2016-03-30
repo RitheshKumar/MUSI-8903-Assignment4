@@ -108,10 +108,10 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
     const int totalNumInputChannels  = getTotalNumInputChannels();
     const int totalNumOutputChannels = getTotalNumOutputChannels();
     
-    if (isSliderParamChange) {
+//    if (isSliderParamChange) {
         pVibrato->setParam(CVibrato::kParamModFreqInHz, *freqParam);
         pVibrato->setParam(CVibrato::kParamModWidthInS, *amplParam);
-    }
+//    }
     
     // In case we have more outputs than inputs, this code clears any output
     // channels that didn't contain input data, (because these aren't
@@ -124,14 +124,20 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
 
     // This is the place where you'd normally do the guts of your plugin's
     // audio processing...
-
-
     
     if (!isBypass) {
-        pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
-    } else {
+        pVibrato->setParam(CVibrato::kParamModFreqInHz, *freqParam);
+        pVibrato->setParam(CVibrato::kParamModWidthInS, *amplParam);
         
     }
+    else {
+        pVibrato->setParam(CVibrato::kParamModFreqInHz, 0.f);
+        pVibrato->setParam(CVibrato::kParamModWidthInS, 0.f);
+        //Hello!
+//        std::cout<<"Hello from bypassing\n";
+    }
+    pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
+    
 }
 
 void Vibrato2pluginAudioProcessor::processBlockBypassed(AudioSampleBuffer& buffer, MidiBuffer& midiMessage) {
@@ -187,8 +193,44 @@ void Vibrato2pluginAudioProcessor::setVibratoParam(CVibrato::VibratoParam_t ePar
     {
         case CVibrato::kParamModFreqInHz:
             fFreqValue = *freqParam;
+            break;
         case CVibrato::kParamModWidthInS:
             fAmpValue = *amplParam;
+            break;
+        case CVibrato::kNumVibratoParams: //Just break if it is either default or the lastEnum
+        default:
+            break;
+            
+    }
+
+}
+
+
+
+float Vibrato2pluginAudioProcessor::getParameter(int parameterIndex) {
+    switch (parameterIndex) {
+        case 0:
+            return *amplParam;
+            break;
+        case 1:
+            return *freqParam;
+            break;
+        default:
+            return 0;
+            break;
+    }
+}
+
+void Vibrato2pluginAudioProcessor::setParameterNotifyingHost (int parameterIndex, float newValue) {
+    switch (parameterIndex) {
+        case 0:
+            *amplParam = newValue;
+            break;
+        case 1:
+            *freqParam = newValue;
+            break;
+        default:
+            break;
     }
 
 }
