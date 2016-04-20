@@ -94,6 +94,7 @@ void Vibrato2pluginAudioProcessor::prepareToPlay (double sampleRate, int samples
         iNumChannel = getTotalNumInputChannels();
     }
     pVibrato->initInstance(3.0f, (float)sampleRate, iNumChannel);
+    pPPM->initInstance((float)sampleRate, samplesPerBlock, iNumChannel);
     
 }
 
@@ -133,8 +134,6 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
     else {
         pVibrato->setParam(CVibrato::kParamModFreqInHz, 0.f);
         pVibrato->setParam(CVibrato::kParamModWidthInS, 0.f);
-        //Hello!
-//        std::cout<<"Hello from bypassing\n";
     }
     pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
     

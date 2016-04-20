@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Vibrato.h"
+#include "PeakProgramMeter.h"
 
 
 //==============================================================================
@@ -79,16 +80,19 @@ public:
 
 private:
     //==============================================================================
+    AudioParameterFloat *amplParam,
+                        *freqParam;
     CVibrato *pVibrato;
-    int iNumChannel = 0;
+    PeakProgramMeter *pPPM;
     ToggleButton * bypassButton;
     DrawableText * bypassInfo;
+    int iNumChannel = 0;
     bool isBypass;
     bool isSliderParamChange;
     float fFreqValue, fAmpValue;
+    float fCurrentPeakValue;
 
-    AudioParameterFloat *amplParam,
-                        *freqParam;
+
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Vibrato2pluginAudioProcessor)
 };
