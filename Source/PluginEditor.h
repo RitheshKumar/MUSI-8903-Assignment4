@@ -13,12 +13,14 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "PluginProcessor.h"
+#include "peakBar.cpp"
 
 
 //==============================================================================
 /**
 */
-class Vibrato2pluginAudioProcessorEditor  : public AudioProcessorEditor, public SliderListener, public ButtonListener
+class Vibrato2pluginAudioProcessorEditor  : public AudioProcessorEditor, public SliderListener, public ButtonListener,
+                                            private Timer
 {
 public:
     Vibrato2pluginAudioProcessorEditor (Vibrato2pluginAudioProcessor& p);
@@ -34,11 +36,14 @@ public:
     //==============================================================================
     void paint (Graphics&) override;
     void resized() override;
+    void timerCallback() override;
 
 private:
     // This reference is provided as a quick way for your editor to
     // access the processor object that created it.
     class ParameterSlider;
+    
+    class peakMeterHolder;
     
     ScopedPointer<ParameterSlider> amplitudeSlider, frequencySlider;
     Label  amplitudeLabel, frequencyLabel;
@@ -46,6 +51,9 @@ private:
     // Bypass button
     ToggleButton bypassButton;
     bool bypassButtonState;
+    
+    
+    peakBar myBar;
 
 
     Vibrato2pluginAudioProcessor& processor;

@@ -69,26 +69,26 @@ public:
     void setParameterNotifyingHost (int parameterIndex, float newValue);
     float getParameter (int parameterIndex) override;
 
-    
     //==============================================================================
     
     bool getBypass();
     void setBypass(bool bypass);
     
     void setVibratoParam(CVibrato::VibratoParam_t eParam, float fParamValue);
+    float getPeakValue(){ return fPeakValue; }
 
 private:
     //==============================================================================
     AudioParameterFloat *amplParam,
-    *freqParam;
+                        *freqParam;
     CVibrato *pVibrato;
     int iNumChannel = 0;
     ToggleButton * bypassButton;
     DrawableText * bypassInfo;
     bool isBypass;
     bool isSliderParamChange;
-    float fFreqValue, fAmpValue;
-
+    float fFreqValue, fAmpValue,
+          fPeakValue;
 
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (Vibrato2pluginAudioProcessor)

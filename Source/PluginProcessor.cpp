@@ -16,6 +16,7 @@
 Vibrato2pluginAudioProcessor::Vibrato2pluginAudioProcessor() : amplParam(nullptr),
                                                                freqParam(nullptr),
                                                                pVibrato(0),
+                                                               fPeakValue(0.0f),
                                                                isBypass(false)
 {
     addParameter (amplParam  = new AudioParameterFloat ("ampl",  "VibratoAmplitude", 0.0f, 0.1f, 0.01f));
@@ -135,6 +136,8 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
         pVibrato->setParam(CVibrato::kParamModWidthInS, 0.f);
     }
     pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
+    
+    fPeakValue = buffer.getMagnitude(0, 100 , 1);
     
 }
 

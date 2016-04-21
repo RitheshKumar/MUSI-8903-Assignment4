@@ -28,10 +28,12 @@ public:
     void valueChanged() override
     {
         param.setValueNotifyingHost ((float) Slider::getValue());
+        updateSliderPos();
     }
     
-    void timerCallback() override       { updateSliderPos(); }
-    
+    void timerCallback() override       { updateSliderPos();
+                                        }
+
     void startedDragging() override     { param.beginChangeGesture(); }
     void stoppedDragging() override     { param.endChangeGesture();   }
     
@@ -50,7 +52,6 @@ public:
     
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (ParameterSlider)
 };
-
 
 
 //==============================================================================
@@ -81,9 +82,11 @@ Vibrato2pluginAudioProcessorEditor::Vibrato2pluginAudioProcessorEditor (Vibrato2
     addAndMakeVisible(bypassButton);
     bypassButton.addListener(this);
     
-    
-    
+    addAndMakeVisible(myBar);
+
     setSize (400, 300);
+    
+    startTimer(10);
 }
 
 
@@ -112,15 +115,21 @@ void Vibrato2pluginAudioProcessorEditor::resized()
     Rectangle<int> sliderArea (r.removeFromTop (50));
     
     amplitudeSlider->setBounds (sliderArea.removeFromLeft (jmin (180, sliderArea.getWidth() / 2)));
-    frequencySlider->setBounds (sliderArea.removeFromLeft (jmin (180, sliderArea.getWidth())));
+    frequencySlider->setBounds (sliderArea.removeFromRight (jmin (180, sliderArea.getWidth())));
     
     bypassButton.setBounds(proportionOfWidth (0.1f), proportionOfHeight (0.800f), proportionOfWidth (0.2500f), proportionOfHeight (0.0600f));
     
+    Rectangle<int> barArea ( r.removeFromBottom(120));
+    barArea.removeFromRight(jmin (180, sliderArea.getWidth() / 2) );
+    barArea.removeFromLeft(jmin ( 180, sliderArea.getWidth() / 2) );
+    myBar.setBounds(barArea.removeFromTop(35));
 
 }
 
 void Vibrato2pluginAudioProcessorEditor:: sliderValueChanged(Slider *slider) {
-    
+    if (slider == amplitudeSlider ) {
+
+    }
 }
 
 void Vibrato2pluginAudioProcessorEditor:: buttonClicked(Button* buttonIsClicked) {
@@ -129,3 +138,9 @@ void Vibrato2pluginAudioProcessorEditor:: buttonClicked(Button* buttonIsClicked)
         processor.setBypass(bypassButtonState);
     }
 }
+
+void Vibrato2pluginAudioProcessorEditor::timerCallback() {
+    myBar.setPeakVal(processor.getPeakValue());
+    myBar.repaint();
+}
+
