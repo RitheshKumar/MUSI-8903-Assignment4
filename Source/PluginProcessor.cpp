@@ -24,11 +24,13 @@ Vibrato2pluginAudioProcessor::Vibrato2pluginAudioProcessor() : amplParam(nullptr
     
     //Call the constructor of vibrato class
     CVibrato::createInstance(pVibrato);
+    PeakProgramMeter::createInstance(pPPM);
 }
 
 Vibrato2pluginAudioProcessor::~Vibrato2pluginAudioProcessor()
 {
     CVibrato::destroyInstance(pVibrato);
+    PeakProgramMeter::destroyInstance(pPPM);
 }
 
 //==============================================================================
@@ -95,6 +97,7 @@ void Vibrato2pluginAudioProcessor::prepareToPlay (double sampleRate, int samples
         iNumChannel = getTotalNumInputChannels();
     }
     pVibrato->initInstance(3.0f, (float)sampleRate, iNumChannel);
+    pPPM->initInstance(sampleRate, samplesPerBlock, iNumChannel);
     
 }
 
@@ -135,9 +138,16 @@ void Vibrato2pluginAudioProcessor::processBlock (AudioSampleBuffer& buffer, Midi
         pVibrato->setParam(CVibrato::kParamModFreqInHz, 0.f);
         pVibrato->setParam(CVibrato::kParamModWidthInS, 0.f);
     }
-    pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
     
-    fPeakValue = buffer.getMagnitude(0, 100 , 1);
+    
+    pVibrato->process( buffer.getArrayOfReadPointers(), buffer.getArrayOfWritePointers(), buffer.getNumSamples());
+    pPPM->ppmProcess( buffer.getArrayOfReadPointers(), buffer.getNumSamples());
+    
+    for (int c = 0; c<iNumChannel; c++) {
+        fPeakValue += pPPM->getPeak(c); //We're only plotting the peakMeter for the first channel
+    }
+    fPeakValue /= 3.f;
+    
     
 }
 

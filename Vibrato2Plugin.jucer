@@ -12,6 +12,11 @@
               buildAUv3="0">
   <MAINGROUP id="BvRcj5" name="Vibrato2Plugin">
     <GROUP id="{E0269B7F-6C79-33C7-C3EF-A0CCE076289A}" name="Source">
+      <FILE id="g354Bz" name="peakBar.cpp" compile="1" resource="0" file="Source/peakBar.cpp"/>
+      <FILE id="LUsTxo" name="PeakProgramMeter.cpp" compile="1" resource="0"
+            file="Source/PeakProgramMeter.cpp"/>
+      <FILE id="XZXJbM" name="PeakProgramMeter.h" compile="0" resource="0"
+            file="Source/PeakProgramMeter.h"/>
       <FILE id="QjqrDr" name="ErrorDef.h" compile="0" resource="0" file="Source/ErrorDef.h"/>
       <FILE id="yuKscj" name="Lfo.h" compile="0" resource="0" file="Source/Lfo.h"/>
       <FILE id="lkmppJ" name="RingBuffer.h" compile="0" resource="0" file="Source/RingBuffer.h"/>

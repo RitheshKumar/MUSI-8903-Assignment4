@@ -13,6 +13,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "Vibrato.h"
+#include "PeakProgramMeter.h"
 
 
 //==============================================================================
@@ -82,6 +83,8 @@ private:
     AudioParameterFloat *amplParam,
                         *freqParam;
     CVibrato *pVibrato;
+    PeakProgramMeter *pPPM;
+    
     int iNumChannel = 0;
     ToggleButton * bypassButton;
     DrawableText * bypassInfo;
